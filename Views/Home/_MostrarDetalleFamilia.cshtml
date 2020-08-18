@@ -1,0 +1,233 @@
+﻿@model IList<ARFood.Models.Productos>
+
+<link href="~/Content/IMGStyle.css" rel="stylesheet" type="text/css">
+@{int HW = 150; }
+
+@if (Model != null)
+{
+    <div class="list-group">
+        @for (int i = 0; i < Model.Count(); i += 8)
+        {
+            <table>
+                <tr>
+                    @if (i < Model.Count())
+                    {
+                        if (Model[i].Imagen.Length > 0)
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i].ID))" class="img-responsive">
+                                        <img src="@Url.Content(Model[i].Imagen)" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i].Precio</div>
+                                        <div class="content_image">@Model[i].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i].ID))" class="img-responsive">
+                                        <img src="~/IMG/ARFood/Logo.jpeg" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i].Precio</div>
+                                        <div class="content_image">@Model[i].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                    }
+                    @if ((i + 1) < Model.Count())
+                    {
+                        if (Model[i + 1].Imagen.Length > 0)
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+1].ID))" class="img-responsive">
+                                        <img src="@Url.Content(Model[i+1].Imagen)" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 1].Precio</div>
+                                        <div class="content_image">@Model[i + 1].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+1].ID))" class="img-responsive">
+                                        <img src="~/IMG/ARFood/Logo.jpeg" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 1].Precio</div>
+                                        <div class="content_image">@Model[i + 1].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                    }
+                    @if ((i + 2) < Model.Count())
+                    {
+                        if (Model[i + 2].Imagen.Length > 0)
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+2].ID))" class="img-responsive">
+                                        <img src="@Url.Content(Model[i+2].Imagen)" alt="Imagen" width="@HW" height="@HW" style="padding-top:40px" />
+                                        <div class="content_TextImage">@Model[i + 2].Precio</div>
+                                        <div class="content_image">@Model[i + 2].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+2].ID))" class="img-responsive">
+                                        <img src="~/IMG/ARFood/Logo.jpeg" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 2].Precio</div>
+                                        <div class="content_image">@Model[i + 2].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                    }
+                    @if ((i + 3) < Model.Count())
+                    {
+                        if (Model[i + 3].Imagen.Length > 0)
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+3].ID))" class="img-responsive">
+                                        <img src="@Url.Content(Model[i+3].Imagen)" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 3].Precio</div>
+                                        <div class="content_image">@Model[i + 3].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+3].ID))" class="img-responsive">
+                                        <img src="~/IMG/ARFood/Logo.jpeg" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 3].Precio</div>
+                                        <div class="content_image">@Model[i + 3].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                    }
+                    @if ((i + 4) < Model.Count())
+                    {
+                        if (Model[i + 4].Imagen.Length > 0)
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+4].ID))" class="img-responsive">
+                                        <img src="@Url.Content(Model[i+4].Imagen)" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 4].Precio</div>
+                                        <div class="content_image">@Model[i + 4].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+4].ID))" class="img-responsive">
+                                        <img src="~/IMG/ARFood/Logo.jpeg" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 4].Precio</div>
+                                        <div class="content_image">@Model[i + 4].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                    }
+                    @if ((i + 5) < Model.Count())
+                    {
+                        if (Model[i + 5].Imagen.Length > 0)
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+5].ID))" class="img-responsive">
+                                        <img src="@Url.Content(Model[i+5].Imagen)" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 5].Precio</div>
+                                        <div class="content_image">@Model[i + 5].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+5].ID))" class="img-responsive">
+                                        <img src="~/IMG/ARFood/Logo.jpeg" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 5].Precio</div>
+                                        <div class="content_image">@Model[i + 5].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                    }
+                    @if ((i + 6) < Model.Count())
+                    {
+                        if (Model[i + 6].Imagen.Length > 0)
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+6].ID))" class="img-responsive">
+                                        <img src="@Url.Content(Model[i+6].Imagen)" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 6].Precio</div>
+                                        <div class="content_image">@Model[i + 6].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+6].ID))" class="img-responsive">
+                                        <img src="~/IMG/ARFood/Logo.jpeg" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 6].Precio</div>
+                                        <div class="content_image">@Model[i + 6].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                    }
+                    @if ((i + 7) < Model.Count())
+                    {
+                        if (Model[i + 7].Imagen.Length > 0)
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+7].ID))" class="img-responsive">
+                                        <img src="@Url.Content(Model[i+7].Imagen)" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 7].Precio</div>
+                                        <div class="content_image">@Model[i + 7].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="content_image">
+                                    <a data-url="@Url.Content(string.Format("~/home/MostrarPlatillos/{0}", Model[i+7].ID))" class="img-responsive">
+                                        <img src="~/IMG/ARFood/Logo.jpeg" alt="Imagen" width="@HW" height="@HW" />
+                                        <div class="content_TextImage">@Model[i + 7].Precio</div>
+                                        <div class="content_TextImage">@Model[i + 7].Descripcion</div>
+                                    </a>
+                                </div>
+                            </td>
+                        }
+                    }
+                </tr>
+            </table>
+        }
+    </div>
+}

@@ -1,0 +1,331 @@
+﻿@model IEnumerable<ARFood.Models.Documentos>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        background-color: DodgerBlue;
+        height: 85vh;
+        width: 100%;
+    }
+
+    .flex-container1 {
+        background-color: #eac435;
+        width: 180px;
+        margin: 10px;
+        text-align: center;
+        line-height: 75px;
+        font-size: 30px;
+        transition: width 0.5s;
+    }
+
+    .flex-container2 {
+        background-color: #e40066;
+        width: 180px;
+        margin: 10px;
+        text-align: center;
+        line-height: 75px;
+        font-size: 30px;
+        transition: width 0.5s;
+    }
+
+    .flex-container3 {
+        background-color: #03cea4;
+        width: 180px;
+        margin: 10px;
+        text-align: center;
+        line-height: 75px;
+        font-size: 30px;
+        transition: width 0.5s;
+    }
+</style>
+
+<body>
+    <table>
+        @for (int i = 0; i < 10; i++)
+        {
+            <tr>
+                <td>
+                    <label></label>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" id="PanelActualSeleccionado" />
+    <div class="flex-container">
+
+        <div class="flex-container1" style="width:80%" id="Panel1">
+            <input type="button" onclick="AbrirPanel(1)" style="background-color:transparent" value="Pedidos" />
+            <div id="ListadePedidosRealizados" style="overflow:scroll;height:650px">
+                @{Html.RenderAction("ListaPedidos");
+                }
+            </div>
+        </div>
+        <div class="flex-container2" style="width:10%" id="Panel2">
+            <input type="button" onclick="AbrirPanel(2)" style="background-color:transparent" value="Datos" />
+            <div id="DetallePedidosRealizados" style="overflow:scroll;height:650px">
+                @{Html.RenderAction("DetallePedidos");
+                }
+            </div>
+        </div>
+        <div class="flex-container3" style="width:10%" id="Panel3">
+            <input type="button" onclick="AbrirPanel(3)" style="background-color:transparent" value="Acción" />
+        </div>
+    </div>
+</body>
+
+<script>
+    setTimeout("SetAutoTime();", 1000);
+
+    function AbrirPanel(iPanel) {
+        var xPanel = document.getElementById('PanelActualSeleccionado');
+        if (iPanel != xPanel.value) {
+            for (i = 1; i < 4; i++) {
+                var xPanel = document.getElementById('Panel' + i);
+                xclass = document.createAttribute("style");
+                xclass.value = "width: 15%;";
+                xPanel.setAttributeNode(xclass);
+            }
+            
+            //if (iPanel != 2) {
+            //    //alert('hi');
+            
+            //}
+            xPanel = document.getElementById('Panel' + iPanel);
+            xclass = document.createAttribute("style");
+            xclass.value = "width: 90%;";
+            xPanel.setAttributeNode(xclass);
+            if (iPanel == 1) {
+                CargaPedidos(true);
+                //$('#ListaPedidoWeb').style.display = "block";
+                //$('#DetallePedidosRealizados').style.display = "none";
+            }
+            else if (iPanel == 2) {
+                var xOrder = document.getElementById("IDOrdenSeleccionada");
+                var idPartida = document.getElementById('img_' + xOrder.value);
+                ViewPedidoDetails(idPartida);
+                //$('#DetallePedidoWeb').style.display = "block";
+                //$('#ListaPedidoWeb').style.display = "none";
+                //CargaPedidos(false);
+            }
+            else if (iPanel == 3) {
+                //$('#DetallePedidoWeb').style.display = "none";
+                //$('#ListaPedidoWeb').style.display = "none";
+                //CargaPedidos(false);
+            }
+            xPanel.value = iPanel;
+        }
+    }
+
+    function CargaPedidos(IsRender) {
+        if (IsRender) {
+            $.ajax({
+                type: "POST",
+                url: '/Cocina/ListaPedidos',
+                success: function (data) {
+                    $('#ListadePedidosRealizados').html(data);
+                },
+                failure: function () {
+                    alert('Ocurrió un error al momento de guardar la información');
+                }
+            });
+        }
+        else {
+            
+        }
+    }
+
+    function CerrarPanel() {
+        var xPanel = document.getElementById('Panel2');
+        xclass = document.createAttribute("style");
+        xclass.value = "";
+        xPanel.setAttributeNode(xclass);
+    }
+
+    function SetAutoTime() {
+        momentoActual = new Date();
+        hora = momentoActual.getHours();
+        minuto = momentoActual.getMinutes();
+        segundo = momentoActual.getSeconds();
+        dia = momentoActual.getDate();
+        mes = momentoActual.getMonth() + 1;
+        anio = momentoActual.getFullYear();
+        BuscarMovimientos();
+        setTimeout("SetAutoTime();", 1000);
+    }
+
+    function BuscarMovimientos() {
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            async: false,
+            cache: false,
+            url: '/Cocina/VerificaMovimientos',
+            dataType: "json",
+            contentType: "application/json",
+            success: function (dato) {
+                if (dato.length > 0) {
+                    var IDMov = "";
+                    dato.forEach(function (elemento, indice, array) {
+                        var n = elemento.indexOf("-");
+                        var Movimiento = elemento.substring(0, n);
+                        IDMov = elemento.substring(n + 1);
+                        var xPanel = document.getElementById('PanelActualSeleccionado');
+                        var iPanel = 1;
+                        if (xPanel.value != null) {
+                            if (xPanel.value.length > 0) {
+                                iPanel = parseInt(xPanel.value);
+                            }
+                        }
+                        if (iPanel < 1) {
+                            iPanel = 1;
+                        }
+                        if (iPanel > 3) {
+                            iPanel = 3;
+                        }
+                        if (iPanel == 1) {
+                            if (Movimiento == "L") {
+                                iPanel--;
+                                if (iPanel < 1) {
+                                    iPanel = 1;
+                                }
+                                AbrirPanel(iPanel);
+                            }
+                            if (Movimiento == "R") {
+                                iPanel++;
+                                //var xOrder = document.getElementById("IDOrdenSeleccionada");
+                                //var idPartida = document.getElementById('img_' + xOrder.value);
+                                //ViewPedidoDetails(idPartida);
+                                AbrirPanel(iPanel);
+                            }
+                            if (Movimiento == "U") {
+                                Arriba();
+                            }
+                            if (Movimiento == "D") {
+                                Abajo();
+                            }
+                            if (Movimiento == "OK") {
+
+                            }
+                        }
+                        else if (iPanel == 2) {
+                            if (Movimiento == "L") {
+                                iPanel--;
+                                if (iPanel < 1) {
+                                    iPanel = 1;
+                                }
+                                if (iPanel > 3) {
+                                    iPanel = 3;
+                                }
+                                AbrirPanel(iPanel);
+                            }
+                            if (Movimiento == "R") {
+                                iPanel++;
+                                if (iPanel < 1) {
+                                    iPanel = 1;
+                                }
+                                if (iPanel > 3) {
+                                    iPanel = 3;
+                                }
+                                //alert('HOla 3');
+                                AbrirPanel(iPanel);
+                            }
+                            if (Movimiento == "U") {
+                                ArribaP();
+                            }
+                            if (Movimiento == "D") {
+                                AbajoP();
+                            }
+                            if (Movimiento == "OK") {
+
+                            }
+                        }
+                        else if (iPanel == 3) {
+                            if (Movimiento == "L") {
+                                iPanel--;
+                                if (iPanel < 1) {
+                                    iPanel = 1;
+                                }
+                                if (iPanel > 3) {
+                                    iPanel = 3;
+                                }
+                                AbrirPanel(iPanel);
+                            }
+                            if (Movimiento == "R") {
+                                iPanel++;
+                                if (iPanel < 1) {
+                                    iPanel = 1;
+                                }
+                                if (iPanel > 3) {
+                                    iPanel = 3;
+                                }
+                                //alert('HOla 3');
+                                AbrirPanel(iPanel);
+                            }
+                            if (Movimiento == "U") {
+                                ArribaP();
+                            }
+                            if (Movimiento == "D") {
+                                AbajoP();
+                            }
+                            if (Movimiento == "OK") {
+
+                            }
+                        }
+                        xPanel.value = iPanel;
+                    });
+                    var xParam = '{idMov: "' + IDMov + '"}';
+                    $.ajax({
+                        type: "POST",
+                        traditional: true,
+                        async: false,
+                        cache: false,
+                        url: '/Cocina/AplicaMovimiento',
+                        data: xParam,
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (dato) {
+
+                        },
+                        failure: function () {
+                            alert('Ocurrió un error al momento de guardar la información');
+                        }
+                    });
+                }
+            },
+            failure: function () {
+                alert('Ocurrió un error al momento de guardar la información');
+            }
+        });
+    }
+
+
+    function ViewPedidoDetails(elem) {
+        var xID = elem.id;
+        var id = xID.substring(4);
+        var xPartida = document.getElementById('IDPedidodb_' + id);
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            async: false,
+            cache: false,
+            url: '/Cocina/DetallePedidos?idPartida=' + xPartida.value,
+            success: function (dato) {
+                $('#DetallePedidosRealizados').html(dato);
+            },
+            failure: function () {
+                $('#DetallePedidosRealizados').html("")
+                alert('Ocurrió un error al momento de guardar la información');
+            }
+        });
+        //AbrirPanel(2);
+    }
+</script>
