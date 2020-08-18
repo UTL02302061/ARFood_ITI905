@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="ARFoodConnection-Web.config Connection String" description="ARFoodConnection Cadena de conexión que usa la aplicación en web.config para obtener acceso a la base de datos." defaultValue="server=arfood.ddns.net\UTL,1433;persist security info=True;Database=ITI905_ARFood;User Id=sa;Password=ARFoodITI.905;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="D:\\Users\\GL\\Documents\\Jorozco\\utl\\IT0905\\ARFood\\ARFood_0\.5\\ARFood\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ARFoodConnection']/@connectionString" />
-  </parameter>
-</parameters>

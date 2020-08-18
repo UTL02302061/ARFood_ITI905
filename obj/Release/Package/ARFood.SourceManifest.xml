@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<sitemanifest>
-  <IisApp path="D:\Users\GL\Documents\Jorozco\utl\IT0905\ARFood\ARFood_0.5\ARFood\obj\Release\Package\PackageTmp" />
-  <setAcl path="D:\Users\GL\Documents\Jorozco\utl\IT0905\ARFood\ARFood_0.5\ARFood\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
-  <setAcl path="D:\Users\GL\Documents\Jorozco\utl\IT0905\ARFood\ARFood_0.5\ARFood\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
-</sitemanifest>
