@@ -53,7 +53,7 @@ namespace ARFood.Controllers
                     List<int> ingredientes = new List<int>();
                     foreach(var item in xCPartidas.GetIngredientes)
                     {
-                        ingredientes.Add(item.IDProd);
+                        ingredientes.Add(item.IDIngrediente);
                     }
                     xCPartidas.getIngrProd = ARService.BuscarIngrProd(ingredientes);
                     return PartialView("_DetallePedidos",xCPartidas);
@@ -157,14 +157,14 @@ namespace ARFood.Controllers
 
         public ActionResult LEDs()
         {
-            return Redirect("http://192.168.0.37/VVVRRR");
+            return Redirect("http://192.168.0.16/VVVRRR");
             //return PartialView("_LEDs");
         }
 
         [WebMethod]
         public ActionResult WebLED()
         {
-            return Json(new { url = "http://192.168.0.37/VVVRRR" });
+            return Json(new { url = "http://192.168.0.16/VVVRRR" });
             //return Redirect("http://www.google.com");
         }
 
@@ -198,7 +198,7 @@ namespace ARFood.Controllers
 
             List<LED> xLED = consulta.ToList();
 
-            string xtemp = "http://192.168.0.37/";
+            string xtemp = "http://192.168.0.16/";
             if (xLED.Count > 0)
             {
                 foreach(LED item in xLED)
@@ -208,6 +208,11 @@ namespace ARFood.Controllers
             }
 
             return Json(xtemp, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult VizualizaIngredientes(string IDProd)
+        {
+            return PartialView("_VizualizaIngredientes");
         }
     }
 }

@@ -2142,6 +2142,12 @@
     <Content Include="IMG\familias\tabacos_y_puros.jpg" />
     <Content Include="IMG\familias\vinos1.jpg" />
     <Content Include="IMG\familias\vinos2.jpg" />
+    <Content Include="IMG\Ingredientes\1.JPG" />
+    <Content Include="IMG\Ingredientes\2.JPG" />
+    <Content Include="IMG\Ingredientes\3.JPG" />
+    <Content Include="IMG\Ingredientes\4.JPG" />
+    <Content Include="IMG\Ingredientes\5.JPG" />
+    <Content Include="IMG\Ingredientes\6.JPG" />
     <Content Include="IMG\jugos\combinados.jpg" />
     <Content Include="IMG\jugos\jugo de betabel.jpg" />
     <Content Include="IMG\jugos\jugo de toronja.jpg" />
@@ -3054,11 +3060,14 @@
     <Content Include="Views\Shared\_Empleado.cshtml" />
     <Content Include="Views\Clientes\RegistarCliente.cshtml" />
     <Content Include="Views\Clientes\EditarInfo.cshtml" />
+    <Content Include="Views\Cocina\_VizualizaIngredientes.cshtml" />
+    <Content Include="Views\Home\ARGuardar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="IMG\fruta\" />
     <Folder Include="IMG\tortaccias\" />
+    <Folder Include="QROrders\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

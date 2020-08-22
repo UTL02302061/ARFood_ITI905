@@ -17,6 +17,8 @@ using System.Drawing;
 using System.IO;
 using ARFood.Models.ViewModels;
 using System.Net;
+using System.Globalization;
+using System.Xml.Linq;
 
 namespace ARFood.Controllers
 {
@@ -539,6 +541,90 @@ namespace ARFood.Controllers
 
             return View();
 
+        }
+
+        public ActionResult ARGuardar(string Mesa, string Fecha, string Items)
+        {
+            if (Mesa != null && Fecha != null && Items != null)
+            {
+                List<string> PlatillosPedidos = new List<string>();
+
+                string[] xProductosSeleccionados = Items.Split(',');
+                List<int> AddProd = new List<int>();
+                foreach (var item in xProductosSeleccionados)
+                {
+                    AddProd.Add(Convert.ToInt32(item));
+                }
+                List<Productos> productos = this.ARService.BuscarProductos(AddProd);
+                int i = 0;
+                List<ProductosPedidos> ListadoPlatillos = new List<ProductosPedidos>();
+                foreach (var item in productos)
+                {
+                    ProductosPedidos xProd = new ProductosPedidos();
+                    xProd.ID = item.ID;
+                    xProd.Producto = item.Producto;
+                    xProd.Descripcion = item.Descripcion;
+                    xProd.Precio = item.Precio;
+                    xProd.UnidadMedida = item.UnidadMedida;
+                    xProd.Cantidad = 1;
+                    ListadoPlatillos.Add(xProd);
+                    
+                }
+                List<ComplementoProductos> complementos = this.ARService.BuscarProductosComplementarios(AddProd);
+                if (complementos != null)
+                {
+                    if (complementos.Count() > 0)
+                    {
+                        for (i = 0; i < AddProd.Count(); i++)
+                        {
+                            if (ListadoPlatillos.Find(x => x.ID == AddProd[i]).ComplementodeProducto == null)
+                            {
+                                IEnumerable<ComplementoProductos> xComplementos = complementos.Where(x => x.idProducto == AddProd[i]);
+                                List<ComplementoProductos> xComplemento = new List<ComplementoProductos>();
+                                for (int e = 0; e < xComplementos.Count(); e++)
+                                {
+                                    xComplemento.Add(xComplementos.ElementAt(e) as ComplementoProductos);
+                                }
+                                ListadoPlatillos.Find(x => x.ID == AddProd[i]).ComplementodeProducto = xComplemento;
+                            }
+                        }
+                    }
+                }
+
+
+                //0List<ProductosPedidos> ListadoPlatillos;
+                ProductosPedidos NewProducto = new ProductosPedidos();
+                Guid id = new Guid();
+                Fecha = Fecha.Replace("_", " ");
+                DateTime xDate = DateTime.ParseExact(Fecha, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture); ;
+                string idOrden = "";
+                string IDMesa = Mesa.Substring(1);
+                
+                string xResult = ARService.GuardaPedido(ListadoPlatillos, id, Convert.ToInt32(Session["IDEmpleado"]), Convert.ToDouble(Session["SubTotal"]), Fecha, idOrden, IDMesa);
+                Guid xID = Guid.Parse(xResult.Substring(5));
+
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(xID.ToString(), QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(qrCodeData);
+                //System.Web.UI.WebControls.Image imgBarCode = new System.Web.UI.WebControls.Image();
+                //imgBarCode.Height = 150;
+                //imgBarCode.Width = 150;
+                using (Bitmap bitMap = qrCode.GetGraphic(20))
+                {
+                    Fecha = Fecha.Replace(@"\", "");
+                    Fecha = Fecha.Replace(@":", "");
+                    Fecha = Fecha.Replace(@" ", "");
+                    var folder = Server.MapPath("~/QROrders/" + Mesa + "_" + Fecha);
+                    bitMap.Save(folder, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    //using (MemoryStream ms = new MemoryStream())
+                    //{
+                    //    bitMap.Save( ms , System.Drawing.Imaging.ImageFormat.Png);
+                    //    ViewBag.imageBytes = ms.ToArray();
+                    //    //imgBarCode.ImageUrl = "data:image/png;base64," + Convert.ToBase64String(byteImage);
+                    //}
+                }
+            }
+            return View();
         }
     }
 }
